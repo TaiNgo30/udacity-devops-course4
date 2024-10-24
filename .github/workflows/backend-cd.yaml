@@ -91,7 +91,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
       - name: Setup AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -106,4 +106,4 @@ jobs:
         run: |
           cd starter/backend/k8s
           kustomize edit set image backend=${{ secrets.BACKEND_ECR_REPOSITORY }}:latest
-          kustomize build | kubectl apply -f -
+          kustomize build | kubectl apply -f - --validate=false
