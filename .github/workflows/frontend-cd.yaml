@@ -50,8 +50,8 @@ jobs:
         working-directory: starter/frontend
         run: CI=true npm test
 
-  build:
-    name: Build Docker Image
+  build_and_push:
+    name: Build Docker Image & Push to ECR
     runs-on: ubuntu-latest
     needs:
       - lint
@@ -64,14 +64,6 @@ jobs:
         working-directory: starter/frontend
         run: |
           docker build --build-arg REACT_APP_MOVIE_API_URL=$REACT_APP_MOVIE_API_URL -t mp-frontend:latest .
-
-  push_to_ecr:
-    name: Push to ECR
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
 
       - name: Setup AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -87,12 +79,12 @@ jobs:
       - name: Push to ECR
         run: |
           docker tag mp-frontend:latest ${{ secrets.FRONTEND_ECR_REPOSITORY }}:latest
-          docker push ${{ secrets.FRONTEND_ECR_REPOSITORY }}:latest
+          docker push ${{ secrets.FRONTEND_ECR_REPOSITORY }}:latest  
 
   deploy:
     name: Deploy to EKS
     runs-on: ubuntu-latest
-    needs: push_to_ecr
+    needs: build_and_push
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
