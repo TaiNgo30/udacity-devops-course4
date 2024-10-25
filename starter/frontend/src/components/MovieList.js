@@ -9,10 +9,10 @@ function MovieList({ onMovieClick }) {
     axios.get(`${process.env.REACT_APP_MOVIE_API_URL}/movies`)
       .then((response) => {
         console.log(response.data);
-        setMovies(response.data.movies || []); 
+        setMovies(response.data.movies || []);
       })
       .catch((error) => {
-        console.error("Error fetching movies:", error);  
+        console.error('Error fetching movies:', error);  // Sửa định dạng theo Prettier
       });
   }, []);
 
