@@ -110,3 +110,5 @@ jobs:
           cd starter/frontend/k8s
           kustomize edit set image frontend=${{ secrets.FRONTEND_ECR_REPOSITORY }}:latest
           kustomize build | kubectl apply -f - --validate=false
+      - name: Print Service URLs
+        run: kubectl get svc -A
