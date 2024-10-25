@@ -8,8 +8,8 @@ function MovieList({ onMovieClick }) {
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_MOVIE_API_URL}/movies`)
       .then((response) => {
-        console.log(response.data);  
-        setMovies(response.data.movies || []);  
+        console.log(response.data);
+        setMovies(response.data.movies || []); 
       })
       .catch((error) => {
         console.error("Error fetching movies:", error);  
