@@ -76,6 +76,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Cache Node Modules
+        uses: actions/cache@v3
+        with:
+          path: starter/frontend/node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('starter/frontend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
+      - name: Install dependencies
+        working-directory: starter/frontend
+        run: npm ci
+
       - name: Build Docker Image
         working-directory: starter/frontend
         run: |
@@ -97,4 +114,3 @@ jobs:
 
 
 
-          
