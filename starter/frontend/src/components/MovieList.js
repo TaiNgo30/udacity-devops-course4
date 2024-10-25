@@ -11,7 +11,7 @@ function MovieList({ onMovieClick }) {
       setMovies(response.data.movies);
     })
     .catch((error) => {
-      console.error(error);
+      console.log(error);
     });
   }, []);
 
